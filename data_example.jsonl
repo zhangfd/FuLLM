@@ -1,0 +1,2 @@
+{"instruction": "prompt", "input": "chat_content", "output": "parsed_result", "id": "id"}
+{"instruction": "prompt", "input": "chat_content2", "output": "parsed_result2", "id": "id2"}

@@ -1,0 +1,92 @@
+# Task
+Based on the follow-up conversation, parse the follow-up report by referencing the example. Finally, provide structured results.
+
+# Fields to Extract
+1. Source of follow-up information
+2. Whether the participant is deceased
+3. Whether the participant was hospitalized
+4. Whether the participant underwent surgery
+5. Whether the participant took medication
+
+# Field Definitions and Determination Methods
+
+## 1. Source of follow-up information
+- Definition: Whether the follow-up participant is the person themselves
+- Value Range: ["Self", "Relative"]
+- Determination Method: Comprehensively analyze the dialogue content to determine if the follow-up was received by the participant themselves.
+
+## 2. Whether the participant is deceased
+- Definition: Life status of the participant
+- Value Range: ["Yes", "No"]
+- Determination Method:
+  - "Yes": Relative explicitly mentions the participant's death.
+  - "No": All other situations.
+
+## 3. Whether the participant was hospitalized
+- Definition: Whether the participant received inpatient treatment during the follow-up period
+- Value Range: ["Yes", "No", "Not Mentioned", "Uncertain"]
+- Determination Method:
+  - "Yes":
+    - Explicit mention of hospitalization.
+    - Situations implying hospitalization: Stent placement, bypass surgery, valve replacement, invasive cerebral angiography.
+  - "No":
+    - Explicit denial of hospitalization.
+    - Mention of no follow-up exams or only health check-ups.
+    - Mention of angiography without specifying DSA or CTA.
+    - Treatment received only at a community hospital.
+  - "Not Mentioned": No relevant information.
+  - "Uncertain": Participant's illogical or contradictory statements preventing a clear judgment.
+
+## 4. Whether the participant underwent surgery
+- Definition: Whether the participant received surgical treatment during the follow-up period
+- Value Range: ["Yes", "No", "Not Mentioned", "Uncertain"]
+- Determination Method:
+  - "Yes":
+    - Explicit mention of surgery.
+    - Specific surgery types: stent, bypass, valve replacement, DSA, etc.
+  - "No":
+    - Explicit denial of surgery.
+    - Mention of only medication prescription or conservative treatment.
+  - "Not Mentioned": No relevant information.
+  - "Uncertain": Participant's illogical or contradictory statements preventing a clear judgment.
+
+## 5. Whether the participant took medication
+- Definition: Whether the participant used medication during the follow-up period
+- Value Range: ["Yes", "No", "Not Mentioned", "Uncertain"]
+- Determination Method:
+  - "Yes": Medication used during follow-up (regardless of discontinuation).
+  - "No": All other situations.
+  - "Not Mentioned": No relevant information.
+  - "Uncertain": Participant's illogical or contradictory statements preventing a clear judgment.
+ 
+# Output Structure
+Structured results output in JSON format, ensuring it is a directly parsable dictionary (Dict[str, str]), formatted as follows:
+```json
+{{
+"Source of follow-up information":"XX",
+"Whether the participant is deceased":"XX",
+"Whether the participant was hospitalized":"XX",
+"Whether the participant underwent surgery":"XX",
+"Whether the participant took medication":"XX"
+}}
+```
+
+# Important Notes
+1. The four events (death, hospitalization, surgery, medication) must be judged independently; they cannot be inferred from each other.
+2. Surgery and hospitalization events are judged independently, but specific surgeries can simultaneously imply hospitalization.
+3. Specifically, if the prediction for 'Whether the participant is deceased:' is "Yes", then only retain the following two pieces of information: {"Source of follow-up information":"XX", "Whether the participant is deceased":"XX"}. Do not include extra information.
+4. Follow the example below and output the result according to the output structure requirements.
+
+# Example
+Input Follow-up Dialogue:
+"Role1: Hello.\nRole2: Hello, may I ask who you are? Hello, may I ask if you are ###### (phonetic)?\nRole1: Hello, who is this?\nRole2: This is Nanjing First Hospital. Didn't you have a coronary artery examination here on June 5th last year? I'm conducting a follow-up on your recent condition.\nRole1: Oh.\nRole2: How have you been feeling lately?\nRole1: I said I haven't had any checkups since then.\nRole2: None, right? How have you been feeling recently? Any chest pain, chest tightness, or discomfort?\nRole1: I've been taking medication.\nRole2: After taking the medication, any chest pain, chest tightness, or discomfort?\nRole1: No.\nRole2: Everything's been fine, right?\nRole1: Yes.\nRole2: No follow-up checks from last year until now, right?\nRole1: Yes.\nRole2: Have you had any physical exams?\nRole1: No.\nRole2: No follow-ups, no physical exams, and feeling pretty good after taking the medication?\nRole1: Yes, that's right.\nRole2: Haven't had any surgeries either, right?\nRole1: No.\nRole2: What medications are you taking now?\nRole1: I take that one, what's it called?\nRole2: Statin.\nRole1: Mm-hmm.\nRole2: So just one statin?\nRole1: Yes, just the one (00:01:20).\nRole2: Just one statin, right?\nRole1: Yes.\nRole2: And your condition has been good recently, no discomfort?\nRole1: Yes.\nRole2: Okay, good. Thank you for your cooperation.\n00:01:36\nEnd"
+Output Result:
+```json
+{{
+"Source of follow-up information":"Self",
+"Whether the participant is deceased":"No",
+"Whether the participant was hospitalized":"No",
+"Whether the participant underwent surgery":"No",
+"Whether the participant took medication":"Yes"
+}}
+``` 
