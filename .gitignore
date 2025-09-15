@@ -3,11 +3,15 @@ cache/
 *egg-info/
 __pycache__/
 .DS_Store
-data/
+# Ignore all contents of the data directory by default
 data/*
-!data/
+
+# But explicitly re-include files and directories that should be tracked
 !data/wav_alpaca_dataset_dCap.jsonl
 !data/meta_info.json
+!data/trained_models/
+!data/trained_models/fullm
+
 config/train_predict/*
 !config/train_predict/fullm_api.yaml
 !config/train_predict/train_template.yaml
