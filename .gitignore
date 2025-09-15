@@ -1,0 +1,12 @@
+.env
+cache/
+*egg-info/
+__pycache__/
+.DS_Store
+data/
+data/*
+!data/
+!data/wav_alpaca_dataset_dCap.jsonl
+!data/meta_info.json
+config/train_predict/*
+TODO.md
