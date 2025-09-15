@@ -9,4 +9,7 @@ data/*
 !data/wav_alpaca_dataset_dCap.jsonl
 !data/meta_info.json
 config/train_predict/*
+!config/train_predict/fullm_api.yaml
+!config/train_predict/train_template.yaml
+!config/train_predict/predict_template.yaml
 TODO.md
