@@ -1,77 +1,166 @@
+# [Your Project Title]
+
+This repository contains the official source code and experimental setup for the paper "[Your Paper Title]".
+
 ## Project Structure
 
 ```
 ./
+├── config/                 # Configuration files for training and inference
+├── data/                   # Directory for input and generated data
+├── llmtoolkit/             # Local dependency for asynchronous model inference
 ├── prompt/                 # Chinese prompts for experiments
-├── prompt_en/             # English translations of prompts for readability
-├── data_example.jsonl     # Data format specification
-└── config/
-    └── train_predict/     # Training and prediction configuration files
+├── prompt_en/              # English translations of prompts
+└── scripts/                # Shell scripts to run the entire workflow
 ```
 
-## Components
+## Environment and Installation
 
-### Prompts
-- **`prompt/`**: Contains Chinese prompt templates used in our experiments
-  - `zero_shot_prompt.txt`: Zero-shot prompting template
-  - `zero_shot_cot_prompt.txt`: Zero-shot chain-of-thought prompting template
-  - `one_shot_prompt.txt`: One-shot prompting template with examples
+### Environment
 
-- **`prompt_en/`**: English translations of the Chinese prompts for better accessibility
-  - Corresponding English versions of all prompt templates
+This project is developed and tested under Python 3.10 on Ubuntu 22.04.
 
-### Data Format
-- **`data_example.jsonl`**: Defines the standard data format for all experiments
-  ```json
-  {
-    "instruction": "prompt",
-    "input": "chat_content", 
-    "output": "parsed_result",
-    "id": "id"
-  }
-  ```
-  All data should be prepared according to this format.
+### H20 GPU Bug Fix
 
-### Configuration
-- **`config/train_predict/`**: Contains training and prediction configuration files
-  - `train_template.yaml`: Template for training configuration
-  - `predict_template.yaml`: Template for prediction configuration
-  - `gen_5fold_config.py`: Script for generating 5-fold cross-validation configurations
-
-## Installation
-
-1. Clone the LLaMA-Factory repository:
+If you are using NVIDIA H20 GPUs, you may encounter a "Floating point exception" error. This is a known issue that can be resolved by installing a specific version of CUDA libraries. This hardware was used in our paper.
 ```bash
-git clone --depth 1 https://github.com/hiyouga/LLaMA-Factory.git
-cd LLaMA-Factory
+pip install nvidia-cublas-cu12==12.4.5.8
 ```
 
-2. Install dependencies:
-```bash
-pip install -e ".[torch,metrics]" --no-build-isolation
-```
+### Installation
+
+1.  **Install LLaMA-Factory**
+    The training and prediction scripts depend on `LLaMA-Factory`. Please install it first:
+    ```bash
+    git clone --depth 1 https://github.com/hiyouga/LLaMA-Factory.git
+    cd LLaMA-Factory
+    pip install -e ".[torch,metrics]" --no-build-isolation
+    cd ..
+    ```
+
+2.  **Install Project Dependencies**
+    Clone this repository and install the necessary packages:
+    ```bash
+    git clone [repository-url]
+    cd [repository-name]
+    pip install -e .
+    ```
+
+## Data Preparation
+
+The project requires two main input files to be placed in the `data/` directory:
+
+1.  `data/wav_alpaca_dataset_dCap.jsonl`: This file should contain the primary dataset in JSON Lines format. Each line represents a single data entry and should follow a structure similar to this:
+    ```json
+    {
+      "instruction": "prompt",
+      "input": "chat_content", 
+      "output": "parsed_result",
+      "dCap": "id"
+    }
+    ```
+
+2.  `data/meta_info.json`: This file contains metadata associated with the dataset. The structure should be as follows:
+    ```json
+      "dCap_id": {
+          "silver": { ... },
+          "gold": { ... },
+          "exam_type_id": 1,
+          "reader": { ... },
+          "fold_id": int,
+          "hospital_code": "str"
+      }
+    ```
+
+Please format your custom data accordingly.
+
+## Configuration
+
+Before running the workflow, you need to configure your environment. Create a `.env` file in the root of the project (you can copy `.env.example`) and specify your model paths and any other necessary environment variables.
 
 ## Usage
 
-### Training
+The entire experimental workflow is orchestrated through a series of shell scripts. Please run them in the following order to reproduce the results.
 
-To start training with the provided configuration:
+1.  **Data Preprocessing**
+    This script preprocesses the raw data. It performs rewriting, synthesis, filtering, and splits the data into folds for cross-validation.
+    ```bash
+    bash scripts/run_data_preproc.sh
+    ```
 
-```bash
-llamafactory-cli train examples/train_lora/follow_up_data_v0_fx.yaml
-```
-Remember copy config/train_predict to LLaMA-Factory/examples/train_lora
+2.  **SVM Experiments**
+    This script runs the baseline SVM models with TF-IDF and Word2Vec features.
+    ```bash
+    bash scripts/run_svm.sh
+    ```
 
-### Data Preparation
+3.  **Train and Predict with LLM**
+    This script fine-tunes the Large Language Model using 5-fold cross-validation. It handles both training and prediction phases.
+    ```bash
+    bash scripts/run_train_predict.sh
+    ```
 
-1. Prepare your data according to the format specified in `data_example.jsonl`
-2. Configure training parameters in `config/train_predict/train_template.yaml`
+4.  **Model Inference**
+    This script runs inference with various pre-trained models using different prompting strategies (e.g., zero-shot, few-shot).
+    ```bash
+    bash scripts/run_model_inference.sh
+    ```
+
+5.  **Data Postprocessing and Evaluation**
+    Finally, this script collects all the results, performs evaluation, and generates the figures and tables presented in the paper.
+    ```bash
+    bash scripts/run_data_postproc.sh
+    ```
+
+After running all the steps, you will find all the generated data, including figures and tables, in the project directory.
+
+## Standalone Inference
+
+Here are instructions for running standalone inference, either through an interactive web UI or in a batch process.
+
+### Using the Web UI for Interactive Chat
+
+For interactive testing and demonstration, you can launch a web-based chat interface.
+
+1.  **Start the Web UI**
+
+    Run the following command to start the Gradio web server:
+    ```bash
+    llamafactory-cli webchat config/train_predict/fullm_api.yaml
+    ```
+
+2.  **Using the Chat Interface**
+
+    Once the server is running, open the provided URL in your browser. For optimal results, you should prepend the content of the `prompt/zero_shot_prompt.txt` file to your message in the chat input box.
+
+### Batch Inference with the OpenAI-style API
+
+For processing multiple data points programmatically, you can use the batch inference script which communicates with an OpenAI-style API.
+
+1.  **Launch the API Server**
+
+    First, start the API server in a terminal. This server will handle inference requests.
+    ```bash
+    API_MODEL_NAME=fullm API_PORT=8028 llamafactory-cli api config/train_predict/fullm_api.yaml
+    ```
+    Keep this server running.
+
+2.  **Run the Batch Inference Script**
+
+    In a separate terminal, execute the following script to send your data to the API and get predictions.
+    ```bash
+    python scripts/prompt_experiment_runner.py --prompt-type 'zero_shot' --model 'fullm' --output-dir data/output/fullm-zero_shot
+    ```
+    The results will be saved in the specified output directory.
 
 ## Citation
+
 
 
 ## License
 
 
+
 ## Contact
+
 
