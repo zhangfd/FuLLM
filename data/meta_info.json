@@ -1,0 +1,48 @@
+{
+    "dCap1": {
+        "silver": {
+            "follow_up_source": -1,
+            "is_deceased": -1,
+            "is_hospitalized": -1,
+            "had_surgery": -1,
+            "is_medicated": -1
+        },
+        "gold": {
+            "is_deceased": -1,
+            "had_surgery": -1
+        },
+        "exam_type_id": -1,
+        "reader": {
+            "reader1": {
+                "follow_up_source": -1,
+                "is_deceased": -1,
+                "is_hospitalized": -1,
+                "had_surgery": -1,
+                "is_medicated": -1
+            },
+            "reader2": {
+                "follow_up_source": -1,
+                "is_deceased": -1,
+                "is_hospitalized": -1,
+                "had_surgery": -1,
+                "is_medicated": -1
+            },
+            "reader3": {
+                "follow_up_source": -1,
+                "is_deceased": -1,
+                "is_hospitalized": -1,
+                "had_surgery": -1,
+                "is_medicated": -1
+            },
+            "reader4": {
+                "follow_up_source": -1,
+                "is_deceased": -1,
+                "is_hospitalized": -1,
+                "had_surgery": -1,
+                "is_medicated": -1
+            }
+        },
+        "fold_id": -1,
+        "hospital_code": "code"
+    }
+}

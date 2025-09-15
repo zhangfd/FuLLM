@@ -1,0 +1,3 @@
+{"instruction": "prompt", "input": "dialog1", "output": "output1", "dCap": "dCap1"}
+{"instruction": "prompt", "input": "dialog2", "output": "output2", "dCap": "dCap2"}
+{"instruction": "prompt", "input": "dialog3", "output": "output3", "dCap": "dCap3"}
