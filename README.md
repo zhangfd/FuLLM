@@ -45,6 +45,15 @@ pip install nvidia-cublas-cu12==12.4.5.8
     cd [repository-name]
     pip install -e .
     ```
+3.  **Install Git LFS**
+    This project uses Git LFS to manage large model files. Please make sure you have Git LFS installed.
+    ```bash
+    git lfs install
+    ```
+    After cloning the repository, you may need to pull the LFS files separately:
+    ```bash
+    git lfs pull
+    ```
 
 ## Data Preparation
 
