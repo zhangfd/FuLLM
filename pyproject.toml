@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "llmtoolkit"
+version = "0.1.0"
+description = "A toolkit for LLM operations"
+authors = [{ name = "adot" }]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "requests>=2.28.0",
+    "aiohttp",
+    "demjson3",
+    "flask",
+    "gradio==5.20.0",
+    "loguru==0.7.2",
+    "openai==1.65.2",
+    "pandas",
+    "python-dotenv==1.0.1",
+    "pyyaml==6.0.2",
+    "numpy",
+    "scikit-learn",
+    "jieba",
+    "gensim",
+    "datasets",
+    "pyarrow==15.0.2",
+    "matplotlib",
+    "seaborn",
+    "openpyxl",
+    "scipy",
+    "xlsxwriter",
+]
+
+[tool.setuptools.packages.find]
+include = ["llmtoolkit*"]
+
+[tool.setuptools.package-data]
+llmtoolkit = ["*"]
+
+[project.scripts]
+llm_server_balancer = "llmtoolkit.llm_server_balancer:main" 
