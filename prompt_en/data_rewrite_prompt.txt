@@ -1,0 +1,58 @@
+# Task
+Based on the results of the follow-up report and the judgment criteria, retrospectively analyze the content of the follow-up conversation. Optimize the follow-up conversation content to ensure that all key Q&A segments, which can directly or indirectly determine the results of the follow-up report, are retained. At the same time, randomly delete half of the non-critical Q&A segments to reduce the amount of data without sacrificing important information. Only return the processed follow-up conversation content, without any extra explanations or descriptions.
+
+# Follow-up Report Results
+{output_text}
+
+# Judgment Criteria
+## 1. Source of Follow-up Information
+- Definition: Whether the follow-up participant is the person themselves
+- Value Range: ["Self", "Relative"]
+- Judgment Method: Determine if the participant is the one being followed up based on the conversation.
+
+## 2. Whether the participant is deceased
+- Definition: Life status of the participant
+- Value Range: ["Yes", "No"]
+- Judgment Method:
+  - "Yes": Relative explicitly mentions the participant's death
+  - "No": All other cases
+
+## 3. Whether the participant was hospitalized
+- Definition: Whether the participant received inpatient treatment
+- Value Range: ["Yes", "No", "Not Mentioned", "Uncertain"]
+- Judgment Method:
+  - "Yes":
+    - Explicitly mentioned hospitalization
+    - Cases that imply hospitalization: Stent placement, bypass surgery, valve replacement, invasive cerebral angiography.
+  - "No":
+    - Explicitly denied hospitalization
+    - Mentioned no follow-up check-up or only a health check-up
+    - Mentioned angiography but did not specify DSA or CTA
+    - Visited a community hospital
+  - "Not Mentioned": No relevant information
+  - "Uncertain": The participant's logic is confused or self-contradictory, making a judgment impossible
+
+## 4. Whether the participant underwent surgery
+- Definition: Whether the participant underwent surgical treatment
+- Value Range: ["Yes", "No", "Not Mentioned", "Uncertain"]
+- Judgment Method:
+  - "Yes":
+    - Explicitly mentioned surgery
+    - Specific types of surgery: stent, bypass, valve replacement, DSA, etc.
+  - "No":
+    - Explicitly denied surgery
+    - Only mentioned prescription of medication or conservative treatment
+  - "Not Mentioned": No relevant information
+  - "Uncertain": The participant's logic is confused or self-contradictory, making a judgment impossible
+
+## 5. Whether the participant took medication
+- Definition: Whether the participant used medication during the follow-up period
+- Value Range: ["Yes", "No", "Not Mentioned", "Uncertain"]
+- Judgment Method:
+  - "Yes": Used medication during the follow-up period (regardless of discontinuation)
+  - "No": All other cases
+  - "Not Mentioned": No relevant information
+  - "Uncertain": The participant's logic is confused or self-contradictory, making a judgment impossible
+
+# Follow-up Conversation Content
+{input_text} 

@@ -1,0 +1,78 @@
+# Task Requirements
+Please generate new and unique follow-up conversation content based on the provided follow-up conversation.
+
+# Follow-up Conversation Content Guidelines
+## 1. Relevance
+The new conversation content must be closely related to the expected follow-up report results, ensuring that the follow-up report results judged from the new conversation are completely consistent with the expected report results.
+
+## 2. Conversation Content and Style Constraints
+1.  **Roles**: Hospital staff (usually from the imaging department or follow-up department) and the patient/family member, marked as Role 1 and Role 2. The roles are not familiar with each other.
+2.  **Scenario**: Takes place in China, in the form of a telephone follow-up.
+3.  **Purpose**: To understand the patient's health status, follow-up examination status, medication use, and symptoms.
+4.  **Content**:
+    *   Revolves around post-coronary CTA examination, heart-related diseases, examinations, and drug use.
+    *   Covers the provided dialogue fragments.
+5.  **Language Features**:
+    *   Concise, short, and direct.
+    *   Very **colloquial**; sentence structure can be incomplete, and subject, verb, and object can be omitted.
+    *   The logic of the patient's/family member's answers can be appropriately chaotic.
+    *   The conversation style is in line with the context of spoken Chinese.
+    *   Medical terms are used but explained when appropriate.
+    *   Progressive, from general to specific.
+    *   Flexible and adaptable, adjusting according to the patient's answers.
+
+# Follow-up Report Results Guide
+## 1. Source of Follow-up Information
+- Definition: Whether the follow-up participant is the person themselves
+- Value Range: ["Self", "Relative"]
+- Judgment Method: Determine if the participant is the one being followed up based on the conversation.
+
+## 2. Whether the participant is deceased
+- Definition: Life status of the participant
+- Value Range: ["Yes", "No"]
+- Judgment Method:
+  - "Yes": Relative explicitly mentions the participant's death
+  - "No": All other cases
+
+## 3. Whether the participant was hospitalized
+- Definition: Whether the participant received inpatient treatment
+- Value Range: ["Yes", "No", "Not Mentioned", "Uncertain"]
+- Judgment Method:
+  - "Yes":
+    - Explicitly mentioned hospitalization
+    - Cases that imply hospitalization: Stent placement, bypass surgery, valve replacement, invasive cerebral angiography.
+  - "No":
+    - Explicitly denied hospitalization
+    - Mentioned no follow-up check-up or only a health check-up
+    - Mentioned angiography but did not specify DSA or CTA
+    - Visited a community hospital
+  - "Not Mentioned": No relevant information
+  - "Uncertain": The participant's logic is confused or self-contradictory, making a judgment impossible
+
+## 4. Whether the participant underwent surgery
+- Definition: Whether the participant underwent surgical treatment
+- Value Range: ["Yes", "No", "Not Mentioned", "Uncertain"]
+- Judgment Method:
+  - "Yes":
+    - Explicitly mentioned surgery
+    - Specific types of surgery: stent, bypass, valve replacement, DSA, etc.
+  - "No":
+    - Explicitly denied surgery
+    - Only mentioned prescription of medication or conservative treatment
+  - "Not Mentioned": No relevant information
+  - "Uncertain": The participant's logic is confused or self-contradictory, making a judgment impossible
+
+## 5. Whether the participant took medication
+- Definition: Whether the participant used medication during the follow-up period
+- Value Range: ["Yes", "No", "Not Mentioned", "Uncertain"]
+- Judgment Method:
+  - "Yes": Used medication during the follow-up period (regardless of discontinuation)
+  - "No": All other cases
+  - "Not Mentioned": No relevant information
+  - "Uncertain": The participant's logic is confused or self-contradictory, making a judgment impossible
+
+# Follow-up Conversation Content
+{input_text}
+
+# Expected Follow-up Report Results
+{output_text} 
