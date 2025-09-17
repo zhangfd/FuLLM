@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 # set -euo pipefail
-# echo "Extracting predict data..."
-# python scripts/03_data_postproc/extract_predict_data.py
+echo "Extracting predict data..."
+python scripts/03_data_postproc/extract_predict_data.py
 
-# echo "Collecting source data..."
-# python scripts/03_data_postproc/collect_source.py
+echo "Collecting source data..."
+python scripts/03_data_postproc/collect_source.py
 
-# echo "Converting data for eval..."
-# python scripts/03_data_postproc/convert_data_for_eval.py
+echo "Converting data for eval..."
+python scripts/03_data_postproc/convert_data_for_eval.py
 
 echo "Eval..."
 python scripts/eval.py --result_dir_name fig2_result --files fig2.xlsx
