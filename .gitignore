@@ -11,9 +11,11 @@ data/*
 !data/meta_info.json
 !data/trained_models/
 !data/trained_models/fullm
-
+!data/dataset_info.json
 config/train_predict/*
 !config/train_predict/fullm_api.yaml
 !config/train_predict/train_template.yaml
 !config/train_predict/predict_template.yaml
+!config/train_predict/fullm_predict.yaml
+
 TODO.md

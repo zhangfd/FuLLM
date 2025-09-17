@@ -1,0 +1,10 @@
+{
+  "follow_up_data_test_aug_f3_demo": {
+    "file_name": "wav_alpaca_dataset_dCap.jsonl",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output"
+    }
+  }
+}
