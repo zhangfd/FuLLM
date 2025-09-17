@@ -2,6 +2,7 @@ import openpyxl
 import re
 from datasets import load_dataset
 from pathlib import Path
+import json
 
 TASKS_NAME = ["随访信息来源", "受试者是否死亡", "受试者是否住院", "受试者是否手术", "受试者是否用药"]
 
@@ -11,6 +12,12 @@ def load_jsonl(pth):
 
 def parse_data(data_string):
     lines = data_string.strip().split('\n')
+    try:
+        # load by json
+        data = json.loads(data_string)
+        return data
+    except json.decoder.JSONDecodeError:
+        pass
     data = {}
     valid_values = set(["是", "否", "不确定", "未提及", "本人", "亲属"])
 
