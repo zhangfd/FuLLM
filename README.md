@@ -1,6 +1,6 @@
-# [Your Project Title]
+# A Large Language Model For Clinical Outcomes Adjudication from Telephone Follow-up Interviews: A Secondary Analysis of a Multicenter Randomized Clinical Trial
 
-This repository contains the official source code and experimental setup for the paper "[Your Paper Title]".
+This repository contains the official source code and experimental setup for the paper "A Large Language Model For Clinical Outcomes Adjudication from Telephone Follow-up Interviews: A Secondary Analysis of a Multicenter Randomized Clinical Trial".
 
 ## Project Structure
 
@@ -144,32 +144,18 @@ For interactive testing and demonstration, you can launch a web-based chat inter
 
 ### Batch Inference with the OpenAI-style API
 
-For processing multiple data points programmatically, you can use the batch inference script which communicates with an OpenAI-style API.
-
-1.  **Launch the API Server**
-
-    First, start the API server in a terminal. This server will handle inference requests.
-    ```bash
-    API_MODEL_NAME=fullm API_PORT=8028 llamafactory-cli api config/train_predict/fullm_api.yaml
-    ```
-    Keep this server running.
-
-2.  **Run the Batch Inference Script**
-
-    In a separate terminal, execute the following script to send your data to the API and get predictions.
-    ```bash
-    python scripts/prompt_experiment_runner.py --prompt-type 'zero_shot' --model 'fullm' --output-dir data/output/fullm-zero_shot
-    ```
-    The results will be saved in the specified output directory.
+For processing multiple data points programmatically, you can use the following command.
+```bash
+llamafactory-cli train config/train_predict/fullm_predict.yaml
+```
+The results will be saved in the specified output directory.
 
 ## Citation
 
-
+Our paper is currently under review. We will update this section with the full citation once it is published.
 
 ## License
 
 
-
 ## Contact
-
 
