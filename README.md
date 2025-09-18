@@ -41,8 +41,8 @@ pip install nvidia-cublas-cu12==12.4.5.8
 2.  **Install Project Dependencies**
     Clone this repository and install the necessary packages:
     ```bash
-    git clone [repository-url]
-    cd [repository-name]
+    git clone git@github.com:zhangfd/FuLLM.git
+    cd FuLLM
     pip install -e .
     ```
 3.  **Install Git LFS**
@@ -156,6 +156,9 @@ Our paper is currently under review. We will update this section with the full c
 
 ## License
 
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Contact
+
+For questions about this research or to request access to the full dataset, please contact the authors through the corresponding author information provided in the paper.
 
