@@ -7,7 +7,7 @@ This repository contains the official source code and experimental setup for the
 ```
 ./
 ├── config/                 # Configuration files for training and inference
-├── data/                   # Directory for input and generated data
+├── data/                   # Directory for data and models
 ├── llmtoolkit/             # Local dependency for asynchronous model inference
 ├── prompt/                 # Chinese prompts for experiments
 ├── prompt_en/              # English translations of prompts
